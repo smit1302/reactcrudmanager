@@ -1,0 +1,11 @@
+
+.title{
+    display: flex;
+  flex-direction: column; /* Align items vertically */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  height: 100vh; /* Set the container to full viewport height */
+  }
+  .content{
+    margin-bottom: 10px;
+  }

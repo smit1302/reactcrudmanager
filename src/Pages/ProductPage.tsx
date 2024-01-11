@@ -3,8 +3,11 @@ interface Props {}
 
 const ProductPage = (props: Props) =>{
 
-    return <>
-    ProductPage</>
+    return( 
+    <>
+    Product Page
+    </>
+    );
 }
 
-export default ProductPage;
+export default ProductPage; 

@@ -22,7 +22,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ existingUserIds, onSubmit, is
       setNewUser(updatedUser);
     }
   }, [isUpdateMode, updatedUser]);
-
+//It will check whether user added is distinct or not
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -44,7 +44,7 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ existingUserIds, onSubmit, is
 
   return (
     <div>
-      <h2>{isUpdateMode ? "Update User" : "Add New User"}</h2>
+      <h2>{isUpdateMode ? "Update User" : "Add New User"}</h2>{/*It Will check whether we are adding a new User or Update */}
       <form onSubmit={handleSubmit}>
         <label>ID:</label>
         <br></br>

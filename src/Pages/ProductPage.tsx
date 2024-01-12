@@ -4,7 +4,7 @@ import { UserService } from "../services/UserService";
 import "./Page.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddUserForm from "./AddUserForm";
-//interface Props {}
+
 interface IState {
   loading: boolean;
   users: IUsers[];

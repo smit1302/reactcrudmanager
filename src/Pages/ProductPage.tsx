@@ -17,10 +17,14 @@ interface UserType {
     email: string;
   }
   
-
-
-
+  
 const ProductPage: React.FC = () => {
+  const handleUpdateClick = (user: IUsers) => {
+    setIsUpdateMode(true);
+    setUpdatedUser(user);
+    setShowAddForm(true);
+    setShowTable(false);
+  };
   const [state, setState] = useState<IState>({
     loading: false,
     users: [] as IUsers[],
@@ -28,6 +32,10 @@ const ProductPage: React.FC = () => {
   });
   const [showAddForm, setShowAddForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+const [updatedUser, setUpdatedUser] = useState<IUsers | null>(null);
+
+  
 /*
   useEffect(() => {
     setState({ ...state, loading: true });
@@ -60,25 +68,61 @@ const ProductPage: React.FC = () => {
           setState({ ...state, loading: false, errorMsg: err.message })
         );
     }
-  }, [state]);
+  }, []);
   
 
   const { loading, users, errorMsg } = state;
 
-  const handleRead = (userId: number) => {
-    // Implement read functionality
-    console.log(`Read user with ID ${userId}`);
-  };
-
-  const handleUpdate = (userId: number) => {
+  const handleUpdate = (updatedUser: { id: number; name: string; username: string; email: string }) => {
     // Implement update functionality
-    console.log(`Update user with ID ${userId}`);
+    console.log(`Update user with ID ${updatedUser.id}`);
+  
+    // Find the index of the updated user in the users array
+    const updatedIndex = state.users.findIndex(user => user.id === updatedUser.id);
+  
+    // If the user is found, update the user in the array
+    if (updatedIndex !== -1) {
+      const updatedUsers = [...state.users];
+      console.log("updated data : "+updatedUser)
+  
+      // Get the existing user
+      const existingUser = updatedUsers[updatedIndex];
+  
+      // Update the existing user with the new data
+      const newUser: IUsers = {
+        ...existingUser,
+        id: updatedUser.id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        email: updatedUser.email,
+      };
+  
+      updatedUsers[updatedIndex] = newUser;
+  
+      // Update local storage with the modified users array
+      localStorage.setItem("users", JSON.stringify(updatedUsers));
+  
+      // Update state to reflect the modification
+      setState({ ...state, users: updatedUsers });
+      setShowTable(true); // Optionally, show the table again after modification
+      setShowAddForm(false);
+    }
   };
-
+  
+  
+  
   const handleDelete = (userId: number) => {
     // Implement delete functionality
-    console.log(`Delete user with ID ${userId}`);
+    const updatedUsers = state.users.filter((user) => user.id !== userId);
+  
+    // Update local storage
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+  
+    // Update state to reflect the deletion
+    setState({ ...state, users: updatedUsers });
+    setShowTable(true); // Optionally, show the table again after deletion
   };
+  
 
   const handleAddClick = () => {
     setShowAddForm(true);
@@ -99,7 +143,7 @@ const ProductPage: React.FC = () => {
   
       // Extract only the needed columns for the new user
       const newUserColumns: IUsers = {
-        id: newUser.id, // Provide a default value for id
+        id: newUser.id, 
         name: newUser.name,
         username: newUser.username,
         email: newUser.email,
@@ -131,17 +175,14 @@ const ProductPage: React.FC = () => {
   };
   
   
-
-
-
   return (
     <div className="title">
       <h1>Product Details</h1>
       {errorMsg && <p>{errorMsg}</p>}
       {loading && <h2>{loading}</h2>}
-      {showTable&&(
-      <table className="table table-bordered table-striped">
-        <thead>
+      {showTable && (
+        <table className="table table-bordered table-striped">
+            <thead>
           <tr>
             <td>
               <b>ID</b>
@@ -160,25 +201,34 @@ const ProductPage: React.FC = () => {
             </td>
           </tr>
         </thead>
-        <tbody>
-          {users.length > 0 &&
-            users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>
-                  <button onClick={() => handleRead(user.id)}>Read</button>
-                  <button onClick={() => handleUpdate(user.id)}>Update</button>
-                  <button onClick={() => handleDelete(user.id)}>Delete</button>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>)}
-      <button onClick={handleAddClick} style={{ display: showAddForm ? 'none' : 'block' }}>Add</button>
-      {showAddForm && <AddUserForm onSubmit={handleAddSubmit} existingUserIds={[]} />}
+          <tbody>
+            {users.length > 0 &&
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>
+                    <button onClick={() => handleUpdateClick(user)}>Update</button>
+                    <button onClick={() => handleDelete(user.id)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      )}
+      <button onClick={handleAddClick} style={{ display: showAddForm ? "none" : "block" }}>
+        Add
+      </button>
+      {showAddForm && (
+        <AddUserForm
+          onSubmit={isUpdateMode ? handleUpdate : handleAddSubmit}
+          existingUserIds={state.users.map((user) => user.id)}
+          isUpdateMode={isUpdateMode}
+          updatedUser={updatedUser}
+        />
+      )}
     </div>
   );
 };

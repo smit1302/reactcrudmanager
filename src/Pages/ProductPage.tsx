@@ -15,7 +15,6 @@ interface UserType {
     name: string;
     username: string;
     email: string;
-    // ... other properties
   }
   
 
@@ -28,6 +27,7 @@ const ProductPage: React.FC = () => {
     errorMsg: "",
   });
   const [showAddForm, setShowAddForm] = useState(false);
+  const [showTable, setShowTable] = useState(true);
 /*
   useEffect(() => {
     setState({ ...state, loading: true });
@@ -82,6 +82,7 @@ const ProductPage: React.FC = () => {
 
   const handleAddClick = () => {
     setShowAddForm(true);
+    setShowTable(false);
   };
   /*const handleAddSubmit = (newUser: { name: string; username: string; email: string }) => {
     const updatedUsers = [...users, newUser];
@@ -90,7 +91,7 @@ const ProductPage: React.FC = () => {
     setShowAddForm(false);
   };*/
 
-  const handleAddSubmit = async (newUser: { name: string; username: string; email: string }) => {
+  const handleAddSubmit = async (newUser: { id:number; name: string; username: string; email: string }) => {
     try {
       // Fetch the complete user data from the API
       const response = await UserService.getAllUsers();
@@ -98,7 +99,7 @@ const ProductPage: React.FC = () => {
   
       // Extract only the needed columns for the new user
       const newUserColumns: IUsers = {
-        id: Date.now(), // Provide a default value for id
+        id: newUser.id, // Provide a default value for id
         name: newUser.name,
         username: newUser.username,
         email: newUser.email,
@@ -122,6 +123,7 @@ const ProductPage: React.FC = () => {
       localStorage.setItem("users", JSON.stringify(updatedUsers));
       setState({ ...state, users: updatedUsers });
       setShowAddForm(false);
+      setShowTable(true);
     } catch (error) {
       console.error("Error fetching data from API:", error);
       // Handle the error accordingly
@@ -137,6 +139,7 @@ const ProductPage: React.FC = () => {
       <h1>Product Details</h1>
       {errorMsg && <p>{errorMsg}</p>}
       {loading && <h2>{loading}</h2>}
+      {showTable&&(
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
@@ -173,9 +176,9 @@ const ProductPage: React.FC = () => {
               </tr>
             ))}
         </tbody>
-      </table>
-      <button onClick={handleAddClick}>Add</button>
-      {showAddForm && <AddUserForm onSubmit={handleAddSubmit} />}
+      </table>)}
+      <button onClick={handleAddClick} style={{ display: showAddForm ? 'none' : 'block' }}>Add</button>
+      {showAddForm && <AddUserForm onSubmit={handleAddSubmit} existingUserIds={[]} />}
     </div>
   );
 };

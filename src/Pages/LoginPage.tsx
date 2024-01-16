@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import "./Page.css";
 interface Props {}
@@ -7,6 +7,13 @@ const LoginPage = (props: Props) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+    // Check authentication status, and redirect if authenticated
+    const isAuthenticated = localStorage.getItem("authenticated");
+    if (isAuthenticated === "true") {
+      navigate("/homePage");
+    }
+  }, [navigate]);
 //Checkig the validation of the Email
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -20,6 +27,7 @@ const LoginPage = (props: Props) => {
     } else if (!validateEmail(email)) {
       alert("Please enter a valid email address");
     } else if (email === "smitjchoksi28@gmail.com" && password === "User@123") {
+      localStorage.setItem("authenticated", "true");
       navigate("/homePage");
     } else {
       alert("Incorrect email or password");

@@ -14,13 +14,13 @@ const LoginPage = (props: Props) => {
       navigate("/homePage");
     }
   }, [navigate]);
-//Checkig the validation of the Email
+  //Checkig the validation of the Email
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-//Checking whether Password and Email are entered Properly
-//Email=smitjchoksi28@gmail.com Password User@123
+  //Checking whether Password and Email are entered Properly
+  //Email=smitjchoksi28@gmail.com Password User@123
   const authenticate = () => {
     if (!email || !password) {
       alert("Enter all the fields");

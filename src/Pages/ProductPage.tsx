@@ -75,7 +75,7 @@ const ProductPage: React.FC = () => {
   }, []);
 
   const { loading, users, errorMsg } = state;
-
+  //Update part
   const handleUpdate = (updatedUser: {
     id: number;
     name: string;
@@ -118,8 +118,8 @@ const ProductPage: React.FC = () => {
       setShowAddForm(false);
       setShowAddButton(true);
     }
-
-    const updatedUsers = fetch("https://jsonplaceholder.typicode.com/posts/1", {
+    //API for the Update part
+    fetch("https://jsonplaceholder.typicode.com/posts/1", {
       method: "PUT",
       body: JSON.stringify({
         id: updatedUser.id,
@@ -132,6 +132,8 @@ const ProductPage: React.FC = () => {
       },
     });
   };
+
+  //Delete part
   const handleDeleteClick = (user: IUsers) => {
     setUserToDelete(user);
     setShowDeleteModal(true);
@@ -153,12 +155,10 @@ const ProductPage: React.FC = () => {
       setUserToDelete(null);
       setShowDeleteModal(false);
       setShowAddButton(true);
-      const deletedUsers = fetch(
-        "https://jsonplaceholder.typicode.com/posts/1",
-        {
-          method: "DELETE",
-        }
-      );
+      //API for the delete
+      fetch("https://jsonplaceholder.typicode.com/posts/1", {
+        method: "DELETE",
+      });
     }
   };
 
@@ -186,12 +186,6 @@ const ProductPage: React.FC = () => {
     setShowAddButton(false);
     setUpdatedUser(null);
   };
-  /*const handleAddSubmit = (newUser: { name: string; username: string; email: string }) => {
-    const updatedUsers = [...users, newUser];
-    localStorage.setItem("users", JSON.stringify(updatedUsers));
-    setState({ ...state, users: updatedUsers });
-    setShowAddForm(false);
-  };*/
 
   const handleAddSubmit = async (newUser: {
     id: number;
@@ -204,8 +198,7 @@ const ProductPage: React.FC = () => {
       const response = await UserService.getAllUsers();
       const fullUserData = response.data;
       //Sending Data to APi
-
-      const addedUsers = fetch("https://jsonplaceholder.typicode.com/posts", {
+ fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "POST",
         body: JSON.stringify({
           id: newUser.id,
@@ -263,7 +256,7 @@ const ProductPage: React.FC = () => {
     }
     setShowAddButton(true);
   };
-
+  //View Part
   const handleViewClick = (user: IUsers) => {
     setIsUpdateMode(false);
     setUpdatedUser(user);
@@ -272,6 +265,7 @@ const ProductPage: React.FC = () => {
     setShowAddButton(false);
     setIsViewMode(true);
     console.log("User id", user);
+    //API for the view part
     fetch(`https://jsonplaceholder.typicode.com/posts/${user.id}`, {
       method: "PATCH",
       body: JSON.stringify({

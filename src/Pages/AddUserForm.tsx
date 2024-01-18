@@ -3,37 +3,47 @@ import { IUsers } from "../models/IUsers";
 
 interface AddUserFormProps {
   existingUserIds: number[];
-  onSubmit: (newUser: { id: number; name: string; username: string; email: string }) => void;
+  onSubmit: (newUser: {
+    id: number;
+    name: string;
+    username: string;
+    email: string;
+  }) => void;
   isUpdateMode: boolean;
   isViewMode: boolean;
   updatedUser?: IUsers | null;
   onResetUpdateMode: () => void;
   onClose: () => void;
-  
 }
 
-const AddUserForm: React.FC<AddUserFormProps> = ({ existingUserIds, onSubmit, isUpdateMode, isViewMode,updatedUser,onResetUpdateMode }) => {
+const AddUserForm: React.FC<AddUserFormProps> = ({
+  existingUserIds,
+  onSubmit,
+  isUpdateMode,
+  isViewMode,
+  updatedUser,
+  onResetUpdateMode,
+}) => {
   const [newUser, setNewUser] = useState({
-    id: isUpdateMode ? (updatedUser?.id || 0) : 0,
-    name: isUpdateMode ? (updatedUser?.name || "") : "",
-    username: isUpdateMode ? (updatedUser?.username || "") : "",
-    email: isUpdateMode ? (updatedUser?.email || "") : "",
+    id: isUpdateMode ? updatedUser?.id || 0 : 0,
+    name: isUpdateMode ? updatedUser?.name || "" : "",
+    username: isUpdateMode ? updatedUser?.username || "" : "",
+    email: isUpdateMode ? updatedUser?.email || "" : "",
   });
-  
+
   useEffect(() => {
-    if ((isUpdateMode ||isViewMode)&& updatedUser) {
+    if ((isUpdateMode || isViewMode) && updatedUser) {
       // If in update mode, pre-fill the form with the existing user data
-     // setNewUser(updatedUser);
-     setNewUser({
-      id: updatedUser.id,
-      name: updatedUser.name,
-      username: updatedUser.username,
-      email: updatedUser.email,
-    });
+      // setNewUser(updatedUser);
+      setNewUser({
+        id: updatedUser.id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        email: updatedUser.email,
+      });
     }
-    
-  }, [isUpdateMode,isViewMode ,updatedUser]);
-//It will check whether user added is distinct or not
+  }, [isUpdateMode, isViewMode, updatedUser]);
+  //It will check whether user added is distinct or not
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -57,14 +67,25 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ existingUserIds, onSubmit, is
 
   return (
     <div>
-      <h2>{isUpdateMode ? "Update User" : (isViewMode ? "View User" : "Add New User")}</h2>{/*It Will check whether we are adding a new User or Update */}
+      <h2>
+        {isUpdateMode
+          ? "Update User"
+          : isViewMode
+          ? "View User"
+          : "Add New User"}
+      </h2>
+      {/*It Will check whether we are adding a new User, Update or Viewing the form */}
+      {/*When we will click the Update button the data will be loaded in the textfield based on the selected user id */}
+      {/*The data will be loaded in corresponding to the selected ID and we will not be able to edit the data in the view mode as textfield will be disabled */}
       <form onSubmit={handleSubmit}>
         <label>ID:</label>
         <br></br>
         <input
           type="number"
           value={newUser.id}
-          onChange={(e) => setNewUser({ ...newUser, id: parseInt(e.target.value, 10) })}
+          onChange={(e) =>
+            setNewUser({ ...newUser, id: parseInt(e.target.value, 10) })
+          }
           disabled={isViewMode}
         />
         <br></br>
@@ -90,8 +111,11 @@ const AddUserForm: React.FC<AddUserFormProps> = ({ existingUserIds, onSubmit, is
           value={newUser.email}
           onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
           disabled={isViewMode}
-        /><br></br>
-        <button type="submit">{isUpdateMode ? "Update" : (isViewMode ? "Close" : "Submit")}</button>
+        />
+        <br></br>
+        <button type="submit">
+          {isUpdateMode ? "Update" : isViewMode ? "Close" : "Submit"}
+        </button>
       </form>
     </div>
   );

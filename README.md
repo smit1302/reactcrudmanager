@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+**React User Management App**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a React application that allows users to manage a list of users, including adding, updating, viewing, and deleting user records. The application interacts with a mock API provided by JSONPlaceholder to perform **CRUD** (Create, Read, Update, Delete) operations.
+Table of Contents
+Getting Started
+Features
+Usage
+Dependencies
 
-## Available Scripts
+**Getting Started**
+Clone the repository:
 
-In the project directory, you can run:
+bash
+Copy code
+git clone <repository-url>
+Install dependencies:
 
-### `npm start`
+bash
+Copy code
+npm install
+Run the application:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+bash
+Copy code
+npm start
+Open your browser and navigate to http://localhost:3000 to use the application.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Features**
+1) User Management: Add, update, view, and delete user records.
+2) CRUD Operations: Perform Create, Read, Update, and Delete operations on user data.
+3) Local Storage: User data is stored in the local storage to maintain persistence.
 
-### `npm test`
+**Usage**
+**Login Page** 
+The login page allows users to enter their email and password for authentication.
+Authentication: Email and password are validated, and if the provided credentials match the predefined values, the user is authenticated.
+Navigation: Upon successful authentication, the user is redirected to the home page (/homePage).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Home Page (/homePage)**
+After successful login, navigate to the home page. From here, you can visit the product page and log out.
 
-### `npm run build`
+**Product Page (/productPage):** View, update, add, and delete user records. The page interacts with the JSONPlaceholder API to perform these operations.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Add User Form (AddUserForm.tsx):** A reusable form component to add or update user data. It includes validation for unique user IDs.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**User Service (UserService.ts):** A service class to interact with the JSONPlaceholder API and handle user-related data.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Dependencies**
 
-### `npm run eject`
+React
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Axios
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+React Router

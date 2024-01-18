@@ -9,11 +9,17 @@ const HomePage = (props: Props) =>{
     const goToproductPage =() =>{
         navigate("/productPage");
     };
+    const Logout =()=>{
+        localStorage.setItem("authenticated", "false");
+        navigate("/");
+
+    }
     return (
     <div className="title">
     <h1>HomePage</h1>
     <h3>This is my Home Page and for further details visit my Product Page</h3>
     <button onClick={goToproductPage}> Product Page </button>
+    <button onClick={Logout}>Logout</button>
     </div>
     );
 }

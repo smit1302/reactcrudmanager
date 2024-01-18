@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import AddUserForm from "./AddUserForm";
 import ConfirmationModal from "./ConfirmationModal";
 
-
 interface IState {
   loading: boolean;
   users: IUsers[];
@@ -120,30 +119,32 @@ const ProductPage: React.FC = () => {
       setShowAddButton(true);
     }
 
-    const updatedUsers=fetch('https://jsonplaceholder.typicode.com/posts/1', {
-      method: 'PUT',
+    const updatedUsers = fetch("https://jsonplaceholder.typicode.com/posts/1", {
+      method: "PUT",
       body: JSON.stringify({
         id: updatedUser.id,
         name: updatedUser.name,
         username: updatedUser.username,
         email: updatedUser.email,
-            }),
+      }),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
-    })
+    });
   };
   const handleDeleteClick = (user: IUsers) => {
     setUserToDelete(user);
     setShowDeleteModal(true);
     setShowTable(false);
     setShowAddButton(false);
-    console.log("setShowAdd button",setShowAddButton);
+    console.log("setShowAdd button", setShowAddButton);
     setShowAddForm(false);
   };
   const handleDeleteConfirm = () => {
     if (userToDelete) {
-      const updatedUsers = state.users.filter((user) => user.id !== userToDelete.id);
+      const updatedUsers = state.users.filter(
+        (user) => user.id !== userToDelete.id
+      );
 
       localStorage.setItem("users", JSON.stringify(updatedUsers));
 
@@ -152,10 +153,12 @@ const ProductPage: React.FC = () => {
       setUserToDelete(null);
       setShowDeleteModal(false);
       setShowAddButton(true);
-      const deletedUsers=fetch('https://jsonplaceholder.typicode.com/posts/1', {
-        method: 'DELETE',
-      });
-      
+      const deletedUsers = fetch(
+        "https://jsonplaceholder.typicode.com/posts/1",
+        {
+          method: "DELETE",
+        }
+      );
     }
   };
 
@@ -165,7 +168,7 @@ const ProductPage: React.FC = () => {
     setShowTable(true);
     setShowAddButton(true);
   };
-/*  const handleDelete = (userId: number) => {
+  /*  const handleDelete = (userId: number) => {
     // Implement delete functionality
     const updatedUsers = state.users.filter((user) => user.id !== userId);
 
@@ -182,7 +185,6 @@ const ProductPage: React.FC = () => {
     setShowTable(false);
     setShowAddButton(false);
     setUpdatedUser(null);
-    
   };
   /*const handleAddSubmit = (newUser: { name: string; username: string; email: string }) => {
     const updatedUsers = [...users, newUser];
@@ -201,33 +203,34 @@ const ProductPage: React.FC = () => {
       // Fetch the complete user data from the API
       const response = await UserService.getAllUsers();
       const fullUserData = response.data;
-//Sending Data to APi
+      //Sending Data to APi
 
-const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
-      method: 'POST',
-      body: JSON.stringify({
-        id: newUser.id,
-        name: newUser.name,
-        username: newUser.username,
-        email: newUser.email,
-        address: {
-          street: "",
-          suite: "",
-          city: "",
-          zipcode: "",
-          geo: { lat: "0", lng: "0" },
-        }, // Provide default values for optional properties
-        phone: "",
-        website: "",
-        company: {
-          name: "",
-          catchPhrase: "",
-          bs: "",},
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
+      const addedUsers = fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          id: newUser.id,
+          name: newUser.name,
+          username: newUser.username,
+          email: newUser.email,
+          address: {
+            street: "",
+            suite: "",
+            city: "",
+            zipcode: "",
+            geo: { lat: "0", lng: "0" },
+          }, // Provide default values for optional properties
+          phone: "",
+          website: "",
+          company: {
+            name: "",
+            catchPhrase: "",
+            bs: "",
+          },
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
       // Extract only the needed columns for the new user
       const newUserColumns: IUsers = {
         id: newUser.id,
@@ -257,7 +260,6 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
       setShowTable(true);
     } catch (error) {
       console.error("Error fetching data from API:", error);
-  
     }
     setShowAddButton(true);
   };
@@ -269,28 +271,27 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
     setShowTable(false);
     setShowAddButton(false);
     setIsViewMode(true);
-    console.log("User id",user)
-    fetch(`https://jsonplaceholder.typicode.com/posts/${user.id}` ,{
-      method: 'PATCH',
+    console.log("User id", user);
+    fetch(`https://jsonplaceholder.typicode.com/posts/${user.id}`, {
+      method: "PATCH",
       body: JSON.stringify({
         id: user.id,
         name: user.name,
         username: user.username,
-        email: user.email
+        email: user.email,
       }),
       headers: {
-        'Content-type': 'application/json; charset=UTF-8',
+        "Content-type": "application/json; charset=UTF-8",
       },
     })
-    .then((response) => response.json())
-    .then((userData) => {
-      // Handle the retrieved data (e.g., update state in a React component)
-    })
-    .catch((error) => {
-      // Handle errors
-      console.error('Error fetching data:', error);
-    });
-
+      .then((response) => response.json())
+      .then((userData) => {
+        // Handle the retrieved data (e.g., update state in a React component)
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error fetching data:", error);
+      });
   };
 
   const handleView = () => {
@@ -299,8 +300,7 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
     setShowAddForm(false);
     setShowTable(true);
     setShowAddButton(true);
-   
-    };
+  };
 
   return (
     <div className="title">
@@ -340,10 +340,10 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
                     <button onClick={() => handleUpdateClick(user)}>
                       Update
                     </button>
-                    <button onClick={() => handleDeleteClick(user)} >
+                    <button onClick={() => handleDeleteClick(user)}>
                       Delete
                     </button>
-                    <button onClick={()=> handleViewClick(user)}>View</button>
+                    <button onClick={() => handleViewClick(user)}>View</button>
                   </td>
                 </tr>
               ))}
@@ -352,31 +352,39 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
       )}
       <button
         onClick={handleAddClick}
-        style={{ display:  showAddButton ? "block" : "none" }}
+        style={{ display: showAddButton ? "block" : "none" }}
       >
         Add
       </button>
       {showAddForm && (
         <AddUserForm
-         // onSubmit={isUpdateMode ? handleUpdate : handleAddSubmit}
-         onSubmit={isUpdateMode ? handleUpdate : (isViewMode ? handleView : handleAddSubmit)}
+          // onSubmit={isUpdateMode ? handleUpdate : handleAddSubmit}
+          onSubmit={
+            isUpdateMode
+              ? handleUpdate
+              : isViewMode
+              ? handleView
+              : handleAddSubmit
+          }
           existingUserIds={state.users.map((user) => user.id)}
           isUpdateMode={isUpdateMode}
           isViewMode={isViewMode}
           updatedUser={updatedUser}
-          onResetUpdateMode={() => {setIsUpdateMode(false)
-          setIsViewMode(false);} }
-          onClose={handleView} />
+          onResetUpdateMode={() => {
+            setIsUpdateMode(false);
+            setIsViewMode(false);
+          }}
+          onClose={handleView}
+        />
       )}
-       {showDeleteModal && (
-      <ConfirmationModal
-
-        title="Confirm!"
-        message="Are you sure you want to delete this record?"
-        onConfirm={handleDeleteConfirm}
-        onCancel={handleDeleteCancel}
-      />
-    )}
+      {showDeleteModal && (
+        <ConfirmationModal
+          title="Confirm!"
+          message="Are you sure you want to delete this record?"
+          onConfirm={handleDeleteConfirm}
+          onCancel={handleDeleteCancel}
+        />
+      )}
     </div>
   );
 };

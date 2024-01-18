@@ -40,7 +40,6 @@ const ProductPage: React.FC = () => {
   const [userToDelete, setUserToDelete] = useState<IUsers | null>(null);
   const [showAddButton, setShowAddButton] = useState(true);
   const [isViewMode, setIsViewMode] = useState(false);
-const [viewedUser, setViewedUser] = useState<IUsers | null>(null);
 
   /*
   useEffect(() => {
@@ -258,7 +257,7 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
       setShowTable(true);
     } catch (error) {
       console.error("Error fetching data from API:", error);
-      // Handle the error accordingly
+  
     }
     setShowAddButton(true);
   };
@@ -270,6 +269,28 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
     setShowTable(false);
     setShowAddButton(false);
     setIsViewMode(true);
+    console.log("User id",user)
+    fetch(`https://jsonplaceholder.typicode.com/posts/${user.id}` ,{
+      method: 'PATCH',
+      body: JSON.stringify({
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+    .then((response) => response.json())
+    .then((userData) => {
+      // Handle the retrieved data (e.g., update state in a React component)
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error fetching data:', error);
+    });
+
   };
 
   const handleView = () => {
@@ -277,8 +298,9 @@ const addedUsers=fetch('https://jsonplaceholder.typicode.com/posts', {
     setUpdatedUser(null);
     setShowAddForm(false);
     setShowTable(true);
-    setShowAddButton(true); // Show the add button again
-  };
+    setShowAddButton(true);
+   
+    };
 
   return (
     <div className="title">
